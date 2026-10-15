@@ -110,7 +110,7 @@
   .auth-actions{display:grid;gap:10px;margin-top:14px;}
   .auth-actions .btn{width:100%;justify-content:center;padding:12px;}
   .auth-actions #btnStudentApply{background:#fbead0;border-color:#fbead0;color:#573b08;}
-  .auth-actions #btnAdminSetup{background:#fff;color:#155c39;border-color:#dce8df;}
+  .auth-actions #btnAdminSetup{display:none !important;}
   .auth-demo{font-size:12px;}
   .setup-panel{display:none;position:fixed;inset:0;z-index:800;background:rgba(5,25,16,.72);align-items:center;justify-content:center;padding:18px;}
   .setup-panel.open{display:flex;}
@@ -785,7 +785,7 @@
       <button class="btn btn-ghost" id="btnAdminSetup" type="button">⚙ Admin credential setup</button>
     </div>
     <div class="auth-demo">
-      Students can browse available sessions without an account. Administrators can create the first admin account below.
+      Students can view and apply for sessions without signing in. Sign in to access lecturer tools.
     </div>
   </div>
 </div>
@@ -1265,7 +1265,7 @@
         <h1>Micro-Teaching Booking</h1>
         <p class="sub">Pick a sign-up sheet below to view available sessions and book your slot.</p>
         <div class="linktree-list" id="linktreeList"></div>
-        <div class="linktree-foot"><a href="#" id="linktreeBackToApp">← Back to lecturer dashboard</a></div>
+        <div class="linktree-foot"><a href="#" id="linktreeBackToApp">← Back to login page</a></div>
       </div>
     </section>
 
@@ -3439,10 +3439,10 @@
     const openBpBtn = e.target.closest('[data-act="openbookpage"]');
     if(openBpBtn){ openPublicBookingPage(openBpBtn.dataset.id); return; }
   });
-  document.getElementById('linktreeBackToApp').addEventListener('click', e=>{
+  document.getElementById('linktreeBackToApp').addEventListener('click', async e=>{
     e.preventDefault();
     location.hash = '';
-    switchView('dashboard');
+    await clearSession(); currentUser = null; document.getElementById('authUsername').value = ''; document.getElementById('authPassword').value = ''; document.getElementById('authError').style.display = 'none'; showAuthScreen();
   });
 
   // ---------- Student booking page ----------
